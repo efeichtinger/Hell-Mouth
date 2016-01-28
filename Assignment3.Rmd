@@ -1,0 +1,78 @@
+---
+title: "Assignment 3"
+author: "Erin Feichtinger"
+date: "January 28, 2016"
+output: html_document
+---
+
+```{r}
+require(ggplot2)
+Name <- c("Jeb", "Donald", "Ted", "Marco", "Carly", "Hillary", "Bernie")
+ABC_politicalpollresults <- c(4,62,51,21,2,14,15)
+NBC_politicalpollresults <- c(12,75,43,19,1,21,19)
+
+#Binding with different modes using cbind() results in R coerceing the elements to
+#the most general 
+#Let's check
+
+pres.cand <- cbind(Name, ABC_politicalpollresults, NBC_politicalpollresults)
+pres.cand
+
+```
+ Yep, everything has become a character. To avoid list, make a data frame. 
+ 
+```{r}
+pres.cand <- data.frame(Name, ABC_politicalpollresults, NBC_politicalpollresults)
+pres.cand
+```
+
+It's possible to use summmary functions to extract information about the central tendency and spread of data on data frames. However, the code mean(pres.cand) does not work as shown in the example. I tried adding na.rm = TRUE to the function but that didn't work either. So, I'll use summary() instead. 
+```{r}
+summary(pres.cand)
+```
+
+The summary function estimates more than just the mean as we can see from the output. Ignore the output on name because it's in character mode. 
+
+There are functions that work on both matrices and data frames but there are some functions for only one type or the other. 
+```{r}
+#Convert data frame to matrix
+as.matrix(pres.cand)
+
+#Convert matrix to data frame
+as.data.frame(pres.cand)
+```
+
+I can look at each candidate's polling result by indexing 
+```{r}
+Jeb <- pres.cand[1,1:3]
+Jeb
+```
+
+What kind of object did I just make with "Jeb"?
+```{r}
+typeof(Jeb)
+class(Jeb)
+```
+
+I understand this as Jeb is a list that is an instance of the class data frame. 
+
+Anyway, back to the statistical analysis and visualization. I started by using the built in plot function. Sometimes we want more features than plot can offer so we can use packages like ggplot2. Still, plot can make nice figures. The function plot has many, many optional arguments for making pretty graphs. 
+```{r}
+plot(pres.cand$Name, pres.cand$ABC_politicalpollresults, type= "p", col = "blue", pch = 3, xlab ="Candidate", ylab = "Percent Favorable Polling")
+points(pres.cand$Name, pres.cand$NBC_politicalpollresults, col = 40)
+qplot(pres.cand$Name, pres.cand$ABC_politicalpollresults)
+```
+
+Is there a relationship between the polling results? Are they approximately the same or different for each candidate? 
+
+```{r}
+new_col <- c(4,62,51,21,2,14,15,12,75,43,19,1,21,19)
+new_col2 <- c("Jeb","Donald", "Ted", "Marco", "Carly", "Hillary", "Bernie", "Jeb","Donald", "Ted", "Marco", "Carly", "Hillary", "Bernie")
+new_col3 <- as.factor(c("A", "A","A","A","A","A","A", "B","B","B","B","B","B","B"))
+new.dat <- cbind(new_col, new_col2, new_col3)
+new.dat
+new.df <- as.data.frame(new.dat)
+colnames(new.df)<- c("PollResults", "Name", "ID")
+new.df
+```
+

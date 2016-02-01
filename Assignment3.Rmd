@@ -84,6 +84,11 @@ ggplot() +
 ggplot(pres.cand, aes(pres.cand$Name, y="Polling results", color = "Media Outlet")) + 
     geom_point(aes(y = pres.cand$ABC_politicalpollresults , col = "ABC")) + 
     geom_point(aes(y = pres.cand$NBC_politicalpollresults, col = "NBC")
+               
+ggplot(pres.cand, aes(x = pres.cand$Name, y=Polling results, color = Media Outlet)) + 
+    geom_point(aes(y = pres.cand$ABC_politicalpollresults , col = "ABC")) + 
+    geom_point(aes(y = pres.cand$NBC_politicalpollresults, col = "NBC")
 
 ```
 
+I haven't yet figured out how to further customize plots using the function ggplot but I will. Anyway, here 

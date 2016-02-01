@@ -19,15 +19,19 @@ pres.cand <- cbind(Name, ABC_politicalpollresults, NBC_politicalpollresults)
 pres.cand
 
 ```
- Yep, everything has become a character. To avoid list, make a data frame. 
+ Yep, everything has become a character. To avoid this, make a data frame. 
  
 ```{r}
 pres.cand <- data.frame(Name, ABC_politicalpollresults, NBC_politicalpollresults)
 pres.cand
+#I also could have just changed pres.cand to a dataframe after using the cbind function by using as.data.frame like so:
+pres.cand <- as.data.frame(pres.cand)
 ```
 
-It's possible to use summmary functions to extract information about the central tendency and spread of data on data frames. However, the code mean(pres.cand) does not work as shown in the example. I tried adding na.rm = TRUE to the function but that didn't work either. So, I'll use summary() instead. 
+It's possible to use summmary functions to extract information about the central tendency and spread of data on data frames. However, the code mean(pres.cand) does not work as shown in the example. I tried adding na.rm = TRUE to the function but that didn't work either. Likewise, trying to subset the 2nd and 3rd columns does not work. So, I'll use summary() instead. 
 ```{r}
+mean(pres.cand, na.rm=TRUE)
+mean(pres.cand[,2:3])
 summary(pres.cand)
 ```
 
@@ -36,16 +40,27 @@ The summary function estimates more than just the mean as we can see from the ou
 There are functions that work on both matrices and data frames but there are some functions for only one type or the other. 
 ```{r}
 #Convert data frame to matrix
-as.matrix(pres.cand)
+mat <- as.matrix(pres.cand)
 
-#Convert matrix to data frame
-as.data.frame(pres.cand)
 ```
 
 I can look at each candidate's polling result by indexing 
 ```{r}
 Jeb <- pres.cand[1,1:3]
+Donald <- pres.cand[2,1:3]
+Ted <- pres.cand[3,1:3]
+Marco <- pres.cand[4,1:3]
+Carly <- pres.cand[5,1:3]
+Hillary <- pres.cand[6,1:3]
+Bernie <- pres.cand[7,1:3]
 Jeb
+Donald
+Ted
+Marco
+Carly
+Hillary
+Bernie
+
 ```
 
 What kind of object did I just make with "Jeb"?
@@ -59,20 +74,16 @@ I understand this as Jeb is a list that is an instance of the class data frame.
 Anyway, back to the statistical analysis and visualization. I started by using the built in plot function. Sometimes we want more features than plot can offer so we can use packages like ggplot2. Still, plot can make nice figures. The function plot has many, many optional arguments for making pretty graphs. 
 ```{r}
 plot(pres.cand$Name, pres.cand$ABC_politicalpollresults, type= "p", col = "blue", pch = 3, xlab ="Candidate", ylab = "Percent Favorable Polling")
-points(pres.cand$Name, pres.cand$NBC_politicalpollresults, col = 40)
-qplot(pres.cand$Name, pres.cand$ABC_politicalpollresults)
-```
+points(pres.cand$Name, pres.cand$NBC_politicalpollresults, col = 60)
+p <- qplot(pres.cand$Name, pres.cand$ABC_politicalpollresults, xlab = "Candidate", ylab= "Poll Numbers", color ="ABC")
 
-Is there a relationship between the polling results? Are they approximately the same or different for each candidate? 
+ggplot() +
+  geom_point(data = pres.cand, aes(x = pres.cand$Name, y = pres.cand$ABC_politicalpollresults, color = "ABC", colour = 'blue')) +
+  geom_point(data = pres.cand, aes(x = pres.cand$Name, y = pres.cand$NBC_politicalpollresults, color = "NBC", colour = 'pink')) 
 
-```{r}
-new_col <- c(4,62,51,21,2,14,15,12,75,43,19,1,21,19)
-new_col2 <- c("Jeb","Donald", "Ted", "Marco", "Carly", "Hillary", "Bernie", "Jeb","Donald", "Ted", "Marco", "Carly", "Hillary", "Bernie")
-new_col3 <- as.factor(c("A", "A","A","A","A","A","A", "B","B","B","B","B","B","B"))
-new.dat <- cbind(new_col, new_col2, new_col3)
-new.dat
-new.df <- as.data.frame(new.dat)
-colnames(new.df)<- c("PollResults", "Name", "ID")
-new.df
+ggplot(pres.cand, aes(pres.cand$Name, y="Polling results", color = "Media Outlet")) + 
+    geom_point(aes(y = pres.cand$ABC_politicalpollresults , col = "ABC")) + 
+    geom_point(aes(y = pres.cand$NBC_politicalpollresults, col = "NBC")
+
 ```
 

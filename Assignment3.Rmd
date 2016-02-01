@@ -73,22 +73,12 @@ I understand this as Jeb is a list that is an instance of the class data frame.
 
 Anyway, back to the statistical analysis and visualization. I started by using the built in plot function. Sometimes we want more features than plot can offer so we can use packages like ggplot2. Still, plot can make nice figures. The function plot has many, many optional arguments for making pretty graphs. 
 ```{r}
-plot(pres.cand$Name, pres.cand$ABC_politicalpollresults, type= "p", col = "blue", pch = 3, xlab ="Candidate", ylab = "Percent Favorable Polling")
-points(pres.cand$Name, pres.cand$NBC_politicalpollresults, col = 60)
-p <- qplot(pres.cand$Name, pres.cand$ABC_politicalpollresults, xlab = "Candidate", ylab= "Poll Numbers", color ="ABC")
-
-ggplot() +
-  geom_point(data = pres.cand, aes(x = pres.cand$Name, y = pres.cand$ABC_politicalpollresults, color = "ABC", colour = 'blue')) +
-  geom_point(data = pres.cand, aes(x = pres.cand$Name, y = pres.cand$NBC_politicalpollresults, color = "NBC", colour = 'pink')) 
-
 ggplot(pres.cand, aes(pres.cand$Name, y="Polling results", color = "Media Outlet")) + 
-    geom_point(aes(y = pres.cand$ABC_politicalpollresults , col = "ABC")) + 
-    geom_point(aes(y = pres.cand$NBC_politicalpollresults, col = "NBC")
-               
-ggplot(pres.cand, aes(x = pres.cand$Name, y=Polling results, color = Media Outlet)) + 
-    geom_point(aes(y = pres.cand$ABC_politicalpollresults , col = "ABC")) + 
-    geom_point(aes(y = pres.cand$NBC_politicalpollresults, col = "NBC")
+  geom_point(aes(y = pres.cand$ABC_politicalpollresults , col = "ABC")) + 
+  geom_point(aes(y = pres.cand$NBC_politicalpollresults, col = "NBC")) + 
+  labs(x = "Candidate", y = "Polling Results")   +
+theme(
+    axis.title=element_text(face="bold", size = "12", color="black"))
+         
 
 ```
-
-I haven't yet figured out how to further customize plots using the function ggplot but I will. Anyway, here 

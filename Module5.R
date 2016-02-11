@@ -6,8 +6,9 @@
 #Create boxplot and histogram
 library(plyr)
 
-subject <- c(1:10)
+#subject <- c(1:10)
 freq <- c(0.6,0.3,0.4,0.4,0.2,0.6,0.3,0.4,0.9,0.2)
+frq2 <- c(freq*100)
 bloodp <- c(103,87,32,42,59,109,78,205,135,176)
 first <- c("bad", "bad", "bad", "bad", "good", "good","good","good", "NA", "bad")
 #same as first but with 1 and 0 
@@ -17,11 +18,17 @@ scd <- c(0,0,1,1,0,0,1,1,1,1)
 fdec <- c("low","high","low","high","low","high","low","high","high","high")
 fd <- c(0,1,0,1,0,1,0,1,1,1)
 
-#data frame in long format
-dat <- cbind(subject,freq, bloodp, first, second, fdec)
-df1 <- as.data.frame(dat)
-dat2 <- cbind(subject,freq, bloodp, fst, scd, fd)
-df2 <- as.data.frame(dat2)
+#data frames, df1 
+df1 <- data.frame(freq, bloodp, first, second, fdec)
+df2 <- data.frame(freq, bloodp, fst, scd, fd)
+
+#brute force approach
+bp1 <- c(59,109,78,205,103,87,32,42,176,135)
+fstt <- c(0,0,0,0,1,1,1,1,1,NA)
+d <- data.frame(bp1,fstt)
+#add in labels and stuff
+boxplot(unstack(d))
+
 
 ID <- c(1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10)
 f <- c(0.6,0.6,0.6,0.3,0.3,0.3,0.4,0.4,0.4,0.4,0.4,0.4,0.2,0.2,0.2,0.6,0.6,0.6,
